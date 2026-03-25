@@ -16,8 +16,8 @@ COLLECTION_NAME = "competitive_intel"
 MODEL = "claude-haiku-4-5"   # Cost-optimized; swap to claude-sonnet-4-6 for richer answers
 MAX_RESULTS = 5              # Number of ChromaDB chunks to retrieve per query
 
-SYSTEM_PROMPT = """You are a competitive intelligence assistant for Meazure Learning's 
-Solutions Consulting and RFP team. You have access to detailed knowledge about 11 
+SYSTEM_PROMPT = """You are a competitive intelligence assistant for Meazure Learning's
+Solutions Consulting and RFP team. You have access to detailed knowledge about 15
 exam/assessment platforms that compete with or complement Meazure Learning.
 
 Your job is to:
@@ -39,6 +39,10 @@ EXAMPLE_QUESTIONS = [
     "What's Excelsoft's unique differentiator?",
     "If an RFP requires GDPR compliance, who should I worry about?",
     "Which platforms target the healthcare/nursing market?",
+    "How does Kryterion's Webassessor compare to Meazure?",
+    "What test center network does Pearson VUE have vs Prometric?",
+    "Where does PSI Services have an edge in government/federal testing?",
+    "How does Pearson VUE's OnVUE compare to Meazure for remote proctoring?",
 ]
 
 # ── ChromaDB setup ─────────────────────────────────────────────────────────────
@@ -122,12 +126,12 @@ def main():
     with st.sidebar:
         st.header("About")
         st.markdown("""
-        This RAG chatbot answers questions about **11 exam/assessment platforms** 
+        This RAG chatbot answers questions about **15 exam/assessment platforms**
         using a vector database of competitive intelligence research.
-        
+
         **Platforms covered:**
         - Caveon
-        - Surpass  
+        - Surpass
         - Cirrus
         - Excelsoft (Saras)
         - ITS (Internet Testing Systems)
@@ -136,7 +140,11 @@ def main():
         - Risr
         - Prolydian
         - ROC-P
-        - CMS / AUTHORWise
+        - CMS / ItemExperts (AUTHORWise)
+        - Kryterion ⭐ _new_
+        - Prometric ⭐ _new_
+        - Pearson VUE ⭐ _new_
+        - PSI Services ⭐ _new_
         """)
 
         st.divider()
