@@ -1030,6 +1030,330 @@ PSI Services (formerly PSI Exams) is a full-service testing company offering exa
 - Candidate experience is a known PSI weakness — if the RFP weights candidate NPS or satisfaction, lead with Meazure's track record
 - PSI Bridge platform modernization concerns: If client asks about technology roadmap, PSI's acquisition-heavy history creates legitimate questions about platform consolidation
 
+
+---
+
+## PLATFORM 16: HONORLOCK
+
+### Overview
+Honorlock is a remote proctoring company founded in 2018 and headquartered in Boca Raton, Florida. It serves primarily higher education institutions and professional education programs with a hybrid AI + live proctor model. Honorlock differentiates on its non-invasive candidate experience, flat-rate pricing, and proprietary cell phone detection technology. It is a direct competitor to Meazure in the higher education market.
+
+### Core Products
+- **Honorlock Proctoring Platform** – AI + live hybrid remote proctoring
+- **Live Pop-In™** – Live proctor intervention triggered by AI flag (not constant monitoring)
+- **BrowserGuard™** – Secure browser lockdown during exams
+- **Search & Destroy™** – Automated web scanning for leaked exam content with one-click takedown requests
+- **Cell Phone Detection** – Proprietary technology to detect secondary devices without relying on proctor observation
+
+### AI Item Generation
+- Not applicable — Honorlock is a proctoring platform only, not an exam authoring or delivery tool
+
+### Proctoring Options
+- **Hybrid AI + Live Proctoring (primary model):** AI monitors continuously; alerts a US-based live proctor only when suspicious behavior is detected — proctor then reviews before intervening via chat
+- **AI-Only Proctoring:** Fully automated monitoring with flagged reports for instructor review
+- **On-Site Testing Center Support:** Can proctor exams at institutional testing centers in addition to remote delivery
+- No scheduled proctor sessions required — on-demand, anytime
+
+### Offline / Resilient Delivery
+- Cloud-based only; requires internet connectivity
+- Supports low bandwidth environments
+- No offline delivery capability
+
+### LMS & System Integrations
+- Native integrations: Canvas, Blackboard Learn, Moodle, D2L Brightspace, Open LMS, Docebo, Intellum
+- Open API / developer toolkit for custom integrations
+- LTI support for LMS embedding
+- No separate login required for students or instructors — fully embedded in LMS workflow
+
+### Security Features
+- **Cell Phone Detection™** — Detects secondary devices and unauthorized cell phone use without proctor line-of-sight
+- **BrowserGuard™** — Blocks websites, applications, keyboard shortcuts including copy/paste
+- **AI Blocks** — Blocks built-in browser AI tools (Microsoft Edge Copilot, Chrome Lens, ChatGPT extensions)
+- **Search & Destroy™** — Scans internet for leaked exam content; one-click DMCA takedown requests
+- **Room scan** — Pre-exam 360° environment verification
+- **ID verification** — Photo ID check at exam start (~1 minute)
+- **Second camera support** — Optional secondary webcam for wider field of view
+- **HD recording** with timestamped incident reports
+
+### Target Market
+- Higher education institutions (primary market — community colleges through R1 universities)
+- Professional education and continuing education programs
+- Institutions prioritizing candidate experience and faculty time savings
+- Large-enrollment courses (500+ students per section)
+
+### Pricing Model
+- **Flat-rate per test or per test-taker** — not hourly (differentiator vs. competitors)
+- 24/7 support, training, and implementation included at no extra cost
+- Implementation in approximately 2 days with dedicated Customer Success Manager
+- No charge for support tickets or implementation — all-in pricing
+
+### Key Differentiators vs. Meazure
+- **Cell Phone Detection™ is a genuine technology differentiator** — hardware-level detection vs. proctor observation
+- **Live Pop-In™ model** — less invasive than constant live monitoring; proctor only appears when AI flags something
+- **Flat-rate pricing** — predictable budget vs. per-hour or per-session models used by some competitors
+- **Search & Destroy™** — proactive leaked content takedown is unique in the market
+- **LMS-native experience** — students never leave the LMS, no separate portal or login
+- Honorlock proctors are **full-time, US-based employees** trained by a nationally certified counselor for test anxiety support
+- Meazure advantage: Longer track record (ProctorU since 2008 vs. Honorlock founded 2018); stronger professional certification market presence; broader exam delivery platform (not just proctoring); Examity brand in corporate/enterprise market
+
+### Recent Updates / News
+- AI blocking features updated to include browser-native AI tools (Edge Copilot, Chrome Lens) — 2025
+- Growing adoption at large public universities (University of Florida case study: $1.14M saved over 3 semesters)
+- Expanding into professional education beyond traditional higher ed
+- Continued investment in Search & Destroy™ content protection capabilities
+
+### RFP Positioning Notes
+- **Direct higher education competitor** — appears frequently in the same RFPs as Meazure/ProctorU
+- If RFP emphasizes candidate experience and non-invasive proctoring: Honorlock's Live Pop-In™ model is compelling — counter with Meazure's proctor quality and training depth
+- If RFP asks about cell phone detection: Honorlock's technology claim is strong — understand if client has this as a specific requirement
+- If RFP is price-sensitive: Honorlock's flat-rate model may appear cheaper — validate total cost of ownership including volume
+- Meazure competitive angle: ProctorU's 15+ year track record, scale for large programs, professional certification expertise, and end-to-end exam delivery differentiate from Honorlock's proctoring-only model
+- **Known weakness:** Honorlock is Chrome/Chrome extension dependent — not suitable for environments requiring other browsers
+
+---
+
+## PLATFORM 17: PROCTORIO
+
+### Overview
+Proctorio is a Learning Integrity Platform founded in 2013 and headquartered in Scottsdale, Arizona. It serves over 4,000 institutions globally across higher education, K-12, corporate, and government sectors. Proctorio has proctored over 80 million exams since founding and maintains 4 million active weekly users. Proctorio is notable for being the most fully automated proctoring platform in the market — it leans heavily on AI and minimal human proctor involvement — and for its end-to-end encryption approach to data privacy.
+
+### Core Products
+- **Automated Proctoring** — AI-driven monitoring with no live proctor; flagged recordings reviewed by instructors post-exam
+- **Live Proctoring** — Human proctor monitoring with real-time intervention capability (no scheduling required)
+- **Professional Review** — Premium service where Proctorio staff analyze recordings for violations (24-48 hour turnaround)
+- **WebSweep** — Content monitoring tool that alerts administrators when exam questions are posted online
+- **Plagiarism Detection** — Written assignment integrity checking including hidden text and formatting anomaly detection
+- **Review Center** — Dashboard with Suspicion Score (red/yellow/green scale), AI analytics, and incident logs
+
+### AI Item Generation
+- Not applicable — Proctorio is a proctoring and integrity platform, not an exam authoring tool
+
+### Proctoring Options
+- **Fully Automated (primary model):** AI monitors exam session; recording and analytics delivered post-exam; no live proctor involved
+- **Live Proctoring:** Human proctor watches in real time; no scheduling or additional registration required
+- **Professional Review:** Post-exam human review by Proctorio staff as a premium add-on
+- 20+ customizable proctoring settings covering recording, lockdown, and verification options
+
+### Offline / Resilient Delivery
+- Browser extension-based; cloud-dependent
+- **Lowest bandwidth requirements of any proctoring solution** — marketed as a key differentiator for low-bandwidth environments
+- No offline delivery capability
+
+### LMS & System Integrations
+- Browser extension integrates with most LMS platforms and third-party assessment platforms
+- Uses Single Sign-On (SSO) — students access exam through existing assessment platform credentials, no separate login
+- LTI integration for LMS platforms
+- API available for custom platform integration
+- Can be implemented in as little as 10 minutes
+
+### Security Features
+- **End-to-end encryption** — only Proctorio to claim this; exam recordings encrypted and accessible only by institution-approved individuals
+- **Suspicion Score** — AI assigns red/yellow/green risk rating to each exam attempt
+- **Recording options:** Webcam, screen, audio, desktop, and browser tab recording (configurable)
+- **Lockdown options:** Browser lock, copy/paste prevention, print disable, virtual machine detection, remote desktop blocking, screen sharing prevention
+- **Verification options:** ID verification, facial detection, room scan
+- **WebSweep** — monitors for leaked exam content online
+
+### Target Market
+- Higher education institutions — primary market (both large and small)
+- K-12 schools and districts
+- Corporate and workforce training programs
+- Government and federal agencies
+- Organizations prioritizing privacy-first, fully automated proctoring at scale
+
+### Pricing Model
+- Per student per year or per exam — pricing not publicly listed, custom quotes
+- Live ID verification and some features are add-on costs
+- Custom institutional pricing based on volume
+- No publicly listed pricing tiers
+
+### Key Differentiators vs. Meazure
+- **End-to-end encryption** is a unique privacy claim in the proctoring market — no other proctor (including Meazure) publicly claims this
+- **Fully automated model** — scales without human proctor costs; appeals to institutions wanting minimal human involvement
+- **Lowest bandwidth requirements** — advantage for institutions with students in low-connectivity environments
+- **Plagiarism detection** extends Proctorio beyond proctoring into broader academic integrity — Meazure has no equivalent
+- **WebSweep** content protection is similar to Honorlock's Search & Destroy™
+- Meazure advantage: Live proctoring quality and scale (ProctorU human proctor workforce); professional certification market depth; end-to-end exam delivery platform; Examity enterprise relationships; Proctorio has faced significant student privacy backlash and academic criticism which has led some institutions to drop it
+- **Known controversy:** Proctorio has been subject to multiple lawsuits and academic critiques related to privacy, bias in AI flagging (particularly for students of color), and aggressive legal action against critics — this is a legitimate competitive vulnerability to raise in sensitive RFPs
+
+### Recent Updates / News
+- Continued investment in AI automated proctoring capabilities
+- Privacy controversy: multiple institutions have publicly dropped Proctorio following student and faculty pushback on surveillance practices
+- Growing corporate and government sector adoption as higher ed scrutiny increases
+- Professional Review service expansion for high-stakes exam programs
+
+### RFP Positioning Notes
+- **Privacy and bias concerns are Proctorio's Achilles heel** — if RFP includes DEI considerations or student welfare language, Proctorio's controversy is a legitimate point to raise carefully
+- If RFP requires fully automated, no-live-proctor solution: Proctorio is the strongest competitor — counter with Meazure's hybrid model flexibility
+- If RFP is bandwidth-sensitive (international or rural students): Proctorio's low-bandwidth claim is compelling — validate with Meazure's connectivity support options
+- If RFP is professional certification (not higher ed): Proctorio is less established — Meazure's ProctorU/Examity track record in cert market is a clear differentiator
+- **Institutions reconsidering Proctorio** due to privacy concerns are a displacement opportunity for Meazure — watch for RFPs that specifically mention "evaluating alternatives" to current proctoring vendor
+
+---
+
+## PLATFORM 18: RESPONDUS
+
+### Overview
+Respondus is an EdTech company founded in 2002 and based in Redmond, Washington, that produces exam authoring tools and the leading secure browser and automated proctoring solution for higher education. Respondus LockDown Browser is installed at over 2,000 higher education institutions and is considered the "gold standard" for in-classroom secure browser testing. Respondus Monitor is the automated remote proctoring add-on that pairs with LockDown Browser for unproctored at-home exam settings. Respondus is a different category than Meazure — it is primarily a secure browser and automated post-hoc review tool, not a live proctoring service.
+
+### Core Products
+- **LockDown Browser®** — Custom secure browser that prevents cheating during LMS-based exams; used in classrooms, labs, and test centers; blocks other applications, printing, copy/paste, virtual machines, screen sharing
+- **Respondus Monitor®** — Automated webcam proctoring add-on for LockDown Browser; records exam sessions for post-exam instructor review with AI flagging
+- **Respondus 4.0** — Exam authoring tool for creating and managing test banks compatible with major LMS platforms
+- **Test Bank Network** — Free test bank access for instructors using Respondus 4.0 with participating publisher textbooks
+- **LockDown Live Proctoring** — Optional integration with Zoom, Microsoft Teams, or Google Meet for instructor-supervised live proctoring in small classes
+
+### AI Item Generation
+- Respondus 4.0 includes test bank management and import from publisher banks — not AI generation
+- No AI item generation capability
+
+### Proctoring Options
+- **LockDown Browser only** — Secure browser for in-person/lab settings; no webcam monitoring
+- **Respondus Monitor (Automated)** — AI flags suspicious behaviors; recordings reviewed by instructor after exam; no live proctor
+- **LockDown Live Proctoring** — Instructor monitors students via Zoom/Teams while LockDown Browser secures the computer; suitable for small class sizes only
+- No on-demand live human proctoring service — Respondus is not a live proctoring company
+
+### Offline / Resilient Delivery
+- LockDown Browser is a downloaded application — functions in controlled campus environments
+- Monitor requires internet for webcam recording and upload
+- No offline remote proctoring capability
+
+### LMS & System Integrations
+- **Deep native integration with all major LMS platforms:** Canvas, Blackboard, D2L Brightspace, Moodle, Sakai, Schoology
+- LTI integration standard
+- Over 2,000 institutional deployments — extremely high LMS penetration in North American higher ed
+- Works across Windows, Mac, Chromebook, and iPad
+- Supports multiple browsers (Chrome, Firefox, Safari, Edge) for Monitor launch
+
+### Security Features
+- LockDown Browser blocks: other applications, messaging, screen-sharing, virtual machines, remote desktops, screen recording, keystroke combinations, browser cache exploits, hundreds of advanced cheating methods
+- Monitor: webcam recording, AI behavior flagging, facial detection, ID check, environment scan
+- Configurable sensitivity levels for flagging
+- Results and recordings available within the LMS for instructor review
+
+### Target Market
+- Higher education institutions (2,000+ LockDown Browser deployments — dominant in this segment)
+- In-person and hybrid classroom exam settings where browser lockdown is needed
+- Institutions wanting automated post-hoc review without live proctor costs
+- Faculty who want exam integrity without scheduling overhead
+
+### Pricing Model
+- **LockDown Browser:** Annual institutional license — $4,950 first year regardless of institution size; tiered/unlimited/student-purchase options after year one
+- Annual license includes 200 free Respondus Monitor seats
+- Respondus Monitor: Tiered, Unlimited, or Student Purchase licensing models
+- Transparent pricing — one of the few proctoring vendors that publishes pricing publicly
+
+### Key Differentiators vs. Meazure
+- **LockDown Browser market dominance** — installed at 2,000+ institutions; many faculty won't use anything else for in-classroom testing; Meazure has no equivalent secure browser product
+- **Predictable, transparent pricing** — published rates vs. Meazure's custom quotes
+- **Deep LMS integration** — arguably the best LMS-native experience in the market
+- **Respondus 4.0 + Test Bank Network** — exam authoring capability that Meazure does not have
+- Meazure advantage: Live human proctoring for high-stakes remote exams (Respondus Monitor is automated post-hoc review only; no live proctor option for large classes); professional certification exam proctoring; identity verification depth; Meazure is the upgrade path when institutions need live monitoring beyond what Monitor provides
+- **Respondus is often a complement, not a competitor** — many institutions use LockDown Browser for in-class and Meazure/ProctorU for high-stakes remote exams
+
+### Recent Updates / News
+- New flagging precision features and sensitivity level controls for Respondus Monitor (2025)
+- Improved low-bandwidth support for Monitor
+- LockDown Live Proctoring (Zoom/Teams integration) added as a new modality for small-class instructor proctoring
+- Continued dominant position in higher education secure browser market
+
+### RFP Positioning Notes
+- **Respondus is frequently a co-existing tool, not a direct replacement** — many Meazure customers also use LockDown Browser; understand if prospect uses both
+- If RFP is purely in-classroom/lab secure browser: Respondus LockDown Browser wins — Meazure doesn't compete here
+- If RFP requires live proctoring for high-stakes remote exams: Respondus Monitor is not sufficient — this is Meazure's lane; Respondus is automated post-hoc review only, not live monitoring
+- **Displacement opportunity:** Institutions using only Respondus Monitor for remote exams and experiencing academic integrity issues are upgrade candidates for Meazure's live proctoring
+- If RFP asks about pricing transparency: Respondus's published pricing is a differentiator — be prepared to discuss Meazure's value relative to Respondus's low price point
+- Respondus 4.0 + test bank capability: If RFP asks about exam authoring, Respondus has tools Meazure doesn't — acknowledge and focus Meazure pitch on delivery and proctoring
+
+---
+
+## PLATFORM 19: PROCTORTRACK (BY VERIFICIENT)
+
+### Overview
+Proctortrack is an automated remote proctoring platform developed by Verificient Technologies, Inc., founded in 2013 and headquartered in New York, NY. Operating in 130+ countries, Proctortrack emphasizes continuous biometric identity verification throughout the exam (not just at the start), tiered proctoring options from fully automated to live hybrid, and a privacy-forward data pledge. Verificient also operates RemoteDesk (workforce remote monitoring) under the same technology stack. Proctortrack achieved ISO 27001 certification in 2023 and has notable partnerships with eCornell, Janison, and Broward College.
+
+### Core Products
+- **Proctortrack Platform** — Multi-tier automated and live remote proctoring
+- **ProctorAuto** — Fully automated AI proctoring (Tier 1); identity verification + session recording + AI analysis
+- **Proctortrack QA** — Automated + human quality review (Tier 2); 12-24 hour turnaround, highest fidelity reports
+- **ProctorLive AI** — Real-time hybrid: live human proctor + AI-enhanced intervention (Tier 3); ideal for high-stakes exams
+- **Spot-Check Proctoring** — New hybrid live/auto modality for flexible coverage
+- **PEBble™ (Proctored Exam-in-Browser)** — Standalone secure browser application; blocks ChatGPT, chatbots, AI extensions, remote casting, unauthorized browser extensions
+- **Two Camera Selfie™** — High-stakes identity verification using dual-angle selfie capture
+- **SPADE** — Transparency portal for test-takers to review identity verification and data lifecycle status
+- **MVProctor** — Specialized proctoring solution for DMV (motor vehicle) licensing exams
+
+### AI Item Generation
+- Not applicable — Proctortrack is a proctoring platform only
+
+### Proctoring Options
+- **ProctorAuto (Tier 1):** Fully automated AI; no live proctor; results delivered post-exam; cost-effective for large-scale, lower-stakes testing
+- **Proctortrack QA (Tier 2):** AI automated + human QA review; 12-24 hour results; ideal for midterms and finals
+- **ProctorLive AI (Tier 3):** Real-time live proctor + AI assistance; immediate intervention capability; ideal for high-stakes certification and licensure
+- **Spot-Check Proctoring:** Hybrid live/auto with spot-check proctor review — new modality (2024-2025)
+- All tiers available on-demand; no scheduling required
+
+### Offline / Resilient Delivery
+- **Offline recording capability** — Proctortrack can capture video even if internet connection is lost during exam; data syncs when connectivity restored; notable differentiator
+- PEBble™ standalone browser provides additional resilience
+- Mobile app (iOS and Android) rebuilt in Flutter for unified cross-platform experience (2025)
+
+### LMS & System Integrations
+- Native LMS integrations: Canvas, Blackboard, Moodle, D2L Brightspace, Sakai, Open EdX
+- LTI integration standard
+- REST API for custom integrations
+- Mobile app with LMS connectivity for iOS and Android
+- No additional student registration required — launches from within LMS exam
+
+### Security Features
+- **Continuous biometric identity verification** throughout the exam (not just at start) — multi-factor: face, ID, knuckle scan against stored baseline profile
+- **7-point system check** — pre-exam environment and identity verification sequence
+- **PEBble™** — blocks ChatGPT, AI chatbots, unauthorized extensions, remote casting, screen sharing; OS-level protection
+- **Two Camera Selfie™** — dual-angle ID verification for high-stakes programs
+- **AI behavior analysis** — desktop screenshots, video playback, timestamped incident flags
+- **SPADE portal** — candidate-facing transparency tool for data lifecycle visibility
+- ISO 27001 certified (2023)
+- Data purged per institution-defined standards (~90 days post-semester)
+
+### Target Market
+- Higher education institutions (community colleges through research universities)
+- Corporate certification programs
+- K-12 and professional education
+- Government and specialized markets (DMV licensing via MVProctor)
+- International markets — active in 130+ countries, strong in regions with limited bandwidth
+
+### Pricing Model
+- Tiered pricing aligned to proctoring level — ProctorAuto is lowest cost, ProctorLive AI highest
+- Positions itself as "affordable and accessible" — price leadership is an explicit brand claim
+- Pricing not publicly listed; custom institutional quotes
+- Institutional licensing with volume discounts
+
+### Key Differentiators vs. Meazure
+- **Continuous biometric identity verification throughout exam** — not just at login; Meazure verifies at start, not continuously
+- **Tiered pricing model** — clients can right-size cost to stakes level within a single vendor relationship
+- **PEBble™ AI chatbot blocking** — OS-level standalone browser specifically designed to block ChatGPT and AI cheating tools
+- **Offline recording capability** — video captured even when internet drops; Meazure does not have this
+- **Mobile app with full proctoring** — iOS/Android app for exam delivery and proctoring; Meazure's mobile support is more limited
+- **MVProctor for DMV** — specialized government licensing niche that Meazure does not serve
+- **SPADE transparency portal** — candidate-facing data transparency tool; addresses privacy concerns proactively
+- Meazure advantage: ProctorU brand recognition and 15-year track record in live proctoring; Examity enterprise/corporate relationships; larger proctor workforce; stronger professional certification market presence; US-based support team depth; Proctortrack support has received mixed reviews for responsiveness
+
+### Recent Updates / News
+- Mobile app rebuilt from ground up using Flutter for iOS/Android unified experience (2025)
+- Spot-Check Proctoring hybrid modality launched
+- Partnership milestone with Janison: 350,000 proctored sessions globally (January 2025)
+- ISO 27001 certification achieved (2023)
+- MVProctor expansion: platinum sponsor at 2024 AAMVA conference (DMV/motor vehicle market)
+- Continued investment in PEBble™ AI chatbot blocking capabilities
+
+### RFP Positioning Notes
+- **Tiered proctoring model** is Proctortrack's strongest pitch for budget-conscious institutions — counter with Meazure's proctor quality, support depth, and brand trust
+- If RFP raises AI cheating/ChatGPT concerns: Proctortrack's PEBble™ is a credible answer — understand Meazure's current AI blocking roadmap before responding
+- If RFP mentions connectivity issues or international students: Proctortrack's offline recording capability and international footprint are genuine differentiators — validate Meazure's connectivity resilience story
+- If RFP is professional certification or high-stakes licensure: Meazure's ProctorU live proctoring depth and ProctorLive AI Tier 3 comparison — focus on proctor quality and support SLAs
+- **Support quality is a Proctortrack weakness** — user reviews consistently flag slow and unhelpful frontline support; if support SLA is a criteria, Meazure's 24/7 support model is a differentiator
+- Proctortrack's DMV/government niche (MVProctor) is adjacent but not directly competitive with Meazure's current market focus
+
 ---
 
 ## QUICK REFERENCE: FEATURE COMPARISON MATRIX

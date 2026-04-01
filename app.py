@@ -17,7 +17,7 @@ MODEL = "claude-haiku-4-5"   # Cost-optimized; swap to claude-sonnet-4-6 for ric
 MAX_RESULTS = 5              # Number of ChromaDB chunks to retrieve per query
 
 SYSTEM_PROMPT = """You are a competitive intelligence assistant for Meazure Learning's
-Solutions Consulting and RFP team. You have access to detailed knowledge about 15
+Solutions Consulting and RFP team. You have access to detailed knowledge about 19
 exam/assessment platforms that compete with or complement Meazure Learning.
 
 Your job is to:
@@ -43,6 +43,10 @@ EXAMPLE_QUESTIONS = [
     "What test center network does Pearson VUE have vs Prometric?",
     "Where does PSI Services have an edge in government/federal testing?",
     "How does Pearson VUE's OnVUE compare to Meazure for remote proctoring?",
+    "How does Honorlock compare to Meazure for higher education proctoring?",
+    "What is Proctorio's main approach to AI proctoring?",
+    "Compare Respondus LockDown Browser vs Meazure for LMS-based exams",
+    "What makes ProctorTrack different from other AI proctoring solutions?",
 ]
 
 # ── ChromaDB setup ─────────────────────────────────────────────────────────────
@@ -126,7 +130,7 @@ def main():
     with st.sidebar:
         st.header("About")
         st.markdown("""
-        This RAG chatbot answers questions about **15 exam/assessment platforms**
+        This RAG chatbot answers questions about **19 exam/assessment platforms**
         using a vector database of competitive intelligence research.
 
         **Platforms covered:**
@@ -141,10 +145,14 @@ def main():
         - Prolydian
         - ROC-P
         - CMS / ItemExperts (AUTHORWise)
-        - Kryterion ⭐ _new_
-        - Prometric ⭐ _new_
-        - Pearson VUE ⭐ _new_
-        - PSI Services ⭐ _new_
+        - Kryterion
+        - Prometric
+        - Pearson VUE
+        - PSI Services
+        - Honorlock ⭐ _new_
+        - Proctorio ⭐ _new_
+        - Respondus ⭐ _new_
+        - ProctorTrack (Verificient) ⭐ _new_
         """)
 
         st.divider()
