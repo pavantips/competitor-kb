@@ -1392,6 +1392,74 @@ Proctortrack is an automated remote proctoring platform developed by Verificient
 9. **Agility vs. big players**: Faster implementation and more responsive than Prometric, Pearson VUE, and PSI for mid-market programs
 10. **Online proctoring track record**: ProctorU's 15-year remote proctoring history outpaces newer entrants (OnVUE, ProProctor, PSI Bridge)
 
+---
+
+## MEAZURE PRODUCT: GUARDIAN SECURE BROWSER
+
+### Overview
+Guardian is a proprietary secure internet browser developed by Meazure Learning. It serves as the primary delivery client for ProctorU proctoring sessions and is the entry point for the remote testing experience across all ProctorU service lines: Live+, Review+, and Record+. Guardian works alongside the ProctorU Platform to enhance exam security, streamline the candidate experience, and promote equitable testing.
+
+### Core Purpose
+"Where the Remote Testing Experience Begins" — Guardian connects test-takers to ProctorU proctoring sessions while enforcing exam owner security policies throughout the exam session.
+
+### Key Features & Capabilities
+
+#### Test-Taker Features
+- Full internet browsing capabilities within controlled environment
+- Quick link buttons to initiate support chat
+- Quick access to ProctorU Platform help articles
+- Downloadable and deletable like a standard application — no permanent installation footprint
+
+#### Administrator / Exam Owner Controls
+When connected to a ProctorU session, exam owners can control and continuously monitor:
+- Copy and paste functions
+- Screenshot capabilities
+- Printing functions
+- Browser window sizing and tab management
+- URL allowlists (permit only approved resources)
+- Virtual machine detection
+- Screen recording capabilities
+- Application blocklist
+- Process blocklist
+
+### Security Features
+- Continuous verification of security settings throughout the exam (not just at launch)
+- Locks down test-taker computers according to administrator-defined policies
+- Virtual machine detection to prevent sandboxed environments
+- Process and application blocklists to prevent unauthorized software
+- URL allowlisting to restrict web access during exams
+
+### Supported Service Lines
+- **Live+** — Live human proctor + Guardian lockdown
+- **Review+** — Recorded session reviewed post-exam + Guardian lockdown
+- **Record+** — Fully automated AI review + Guardian lockdown
+
+### Three Core Benefits
+1. **Enhanced Security**: Locks down test-taker computers per administrator settings with continuous verification throughout exams
+2. **Streamlined Experience**: Simplifies exam launch, reduces friction, and optimizes testing performance for candidates
+3. **Equitable Testing**: Strengthens exam integrity while improving accessibility for all participants
+
+### Target Market
+- Professional certification and licensure organizations using ProctorU
+- Higher education institutions using ProctorU for remote exam delivery
+- Any program requiring secure browser lockdown alongside live, recorded, or AI proctoring
+
+### Key Differentiators vs. Competitors
+- Native integration with ProctorU — no third-party secure browser needed (unlike Surpass, Questionmark, and others that rely on Respondus or third-party lockdown tools)
+- Covers all three proctoring modalities (live, review, automated) under one browser client
+- Continuous security enforcement vs. point-in-time checks
+- Candidate-friendly: downloadable/deletable, with built-in support access
+
+### RFP Positioning Notes
+- If RFP asks about secure browser: Guardian is Meazure's native answer — no dependency on Respondus LockDown Browser or third-party tools
+- Emphasize continuous security enforcement as a differentiator vs. competitors who only lock down at exam start
+- Guardian + ProctorU = fully integrated stack; competitors often piece together separate browser lockdown + proctoring vendor
+
+### Client Feedback
+"Guardian is amazing! It worked seamlessly and was very reliable." — Royal College of Dentists of Canada Administrator
+
+---
+
 ## MEAZURE LEARNING KNOWN GAPS (Be Honest in RFPs)
 
 1. **No native offline delivery**: Surpass SecureClient and Excelsoft have clear advantage for no-internet environments
