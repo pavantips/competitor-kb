@@ -1,11 +1,14 @@
 """
 admin_app.py
-Local-only admin tool — scrape competitor pages via Jina AI, preview, ingest to ChromaDB, push to GitHub.
+Local-only admin tool for the Competitor KB.
+Two ingestion modes: scrape from URL (Jina AI) or upload a document (.pdf, .docx, .xlsx, .csv).
 Run: streamlit run admin_app.py --server.port 8502
 """
 
+import io
 import os
 import re
+import csv
 import hashlib
 import datetime
 import subprocess
@@ -32,11 +35,9 @@ def get_collection():
     )
 
 
-def delta_ingest(platform_name: str, content: str) -> tuple[int, int]:
-    """Add chunks for a new platform without touching existing data."""
+def delta_ingest_text(platform_name: str, content: str) -> tuple[int, int]:
+    """Ingest free-text content by splitting on ### subheadings."""
     collection = get_collection()
-
-    # Split by ### subheadings to create chunks
     subsections = re.split(r"(?=^### )", content, flags=re.MULTILINE)
     chunks = []
 
@@ -47,18 +48,36 @@ def delta_ingest(platform_name: str, content: str) -> tuple[int, int]:
             if not sub.strip():
                 continue
             sub_title = sub.split("\n")[0].strip("# ").strip()
-            full_text = f"{platform_name} — {sub_title}\n\n{sub.strip()}"
-            chunks.append({"text": full_text, "title": f"{platform_name}: {sub_title}"})
+            chunks.append({
+                "text": f"{platform_name} — {sub_title}\n\n{sub.strip()}",
+                "title": f"{platform_name}: {sub_title}",
+            })
 
+    return _add_chunks(platform_name, chunks, prefix="scraped")
+
+
+def delta_ingest_rows(platform_name: str, rows: list[dict]) -> tuple[int, int]:
+    """Ingest pre-formed row chunks (from tabular data)."""
+    collection = get_collection()
+    chunks = [
+        {
+            "text": r["text"],
+            "title": r["title"],
+        }
+        for r in rows
+    ]
+    return _add_chunks(platform_name, chunks, prefix="tabular")
+
+
+def _add_chunks(platform_name: str, chunks: list[dict], prefix: str) -> tuple[int, int]:
+    """Shared logic: deduplicate by ID and add to collection."""
+    collection = get_collection()
     name_hash = hashlib.md5(platform_name.lower().encode()).hexdigest()[:8]
     documents = [c["text"] for c in chunks]
     metadatas = [{"source": SCRAPED_FILE, "title": c["title"]} for c in chunks]
-    ids = [f"scraped_{name_hash}_{i}" for i in range(len(chunks))]
+    ids = [f"{prefix}_{name_hash}_{i}" for i in range(len(chunks))]
 
-    # Skip IDs that already exist (idempotent)
-    existing = collection.get(ids=ids)
-    existing_ids = set(existing["ids"])
-
+    existing_ids = set(collection.get(ids=ids)["ids"])
     new_docs, new_meta, new_ids = [], [], []
     for doc, meta, id_ in zip(documents, metadatas, ids):
         if id_ not in existing_ids:
@@ -74,13 +93,12 @@ def delta_ingest(platform_name: str, content: str) -> tuple[int, int]:
 
 def full_reingest():
     """Delete collection and rebuild from all data files."""
-    import importlib.util, sys
+    import importlib.util
     spec = importlib.util.spec_from_file_location("ingest_data", "./ingest_data.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     chunks = mod.load_markdown_files(".")
     mod.ingest_to_chromadb(chunks)
-    # Clear cached resource so next query uses fresh collection
     st.cache_resource.clear()
 
 
@@ -93,22 +111,70 @@ def collection_stats() -> int:
 
 # ── Jina AI Scraper ────────────────────────────────────────────────────────────
 def scrape_with_jina(url: str) -> str:
-    jina_url = f"{JINA_PREFIX}{url}"
-    resp = requests.get(jina_url, timeout=30, headers={"Accept": "text/plain"})
+    resp = requests.get(f"{JINA_PREFIX}{url}", timeout=30, headers={"Accept": "text/plain"})
     resp.raise_for_status()
     return resp.text
 
 
+# ── Document Extractors ────────────────────────────────────────────────────────
+def extract_pdf(file_bytes: bytes) -> str:
+    from pypdf import PdfReader
+    reader = PdfReader(io.BytesIO(file_bytes))
+    pages = []
+    for page in reader.pages:
+        text = page.extract_text()
+        if text:
+            pages.append(text.strip())
+    return "\n\n".join(pages)
+
+
+def extract_docx(file_bytes: bytes) -> str:
+    from docx import Document
+    doc = Document(io.BytesIO(file_bytes))
+    paragraphs = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
+    return "\n\n".join(paragraphs)
+
+
+def extract_xlsx(file_bytes: bytes) -> tuple[object, list[dict]]:
+    """Returns (dataframe, list of row chunks)."""
+    import pandas as pd
+    df = pd.read_excel(io.BytesIO(file_bytes))
+    df = df.fillna("").astype(str)
+    return df, _df_to_chunks(df)
+
+
+def extract_csv(file_bytes: bytes) -> tuple[object, list[dict]]:
+    """Returns (dataframe, list of row chunks)."""
+    import pandas as pd
+    df = pd.read_csv(io.BytesIO(file_bytes))
+    df = df.fillna("").astype(str)
+    return df, _df_to_chunks(df)
+
+
+def _df_to_chunks(df) -> list[dict]:
+    """Convert each DataFrame row into a text chunk."""
+    chunks = []
+    headers = df.columns.tolist()
+    for idx, row in df.iterrows():
+        parts = [f"{col}: {val}" for col, val in zip(headers, row) if str(val).strip() and str(val) != "nan"]
+        if parts:
+            chunks.append({
+                "text": " | ".join(parts),
+                "title": f"Row {idx + 1}: {parts[0] if parts else ''}",
+            })
+    return chunks
+
+
 # ── Markdown formatter ─────────────────────────────────────────────────────────
-def format_as_markdown(platform_name: str, url: str, content: str) -> str:
+def format_as_markdown(platform_name: str, source_label: str, content: str) -> str:
     date_str = datetime.date.today().strftime("%B %Y")
     return f"""
 ---
 
-## SCRAPED: {platform_name.upper()}
+## UPLOADED: {platform_name.upper()}
 
-> **Source:** {url}
-> **Scraped:** {date_str}
+> **Source:** {source_label}
+> **Added:** {date_str}
 
 {content.strip()}
 """
@@ -118,21 +184,35 @@ def format_as_markdown(platform_name: str, url: str, content: str) -> str:
 def git_push(platform_name: str) -> tuple[bool, str]:
     try:
         subprocess.run(["git", "add", "chroma_db/", SCRAPED_FILE], check=True, capture_output=True)
-        result = subprocess.run(
-            ["git", "status", "--porcelain"], capture_output=True, text=True
-        )
+        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
         if not result.stdout.strip():
             return True, "Nothing new to commit — already up to date."
-        msg = f"Admin: scrape + ingest '{platform_name}'"
-        subprocess.run(["git", "commit", "-m", msg], check=True, capture_output=True)
+        subprocess.run(
+            ["git", "commit", "-m", f"Admin: ingest '{platform_name}'"],
+            check=True, capture_output=True,
+        )
         subprocess.run(["git", "push", "origin", "main"], check=True, capture_output=True)
         return True, "Pushed successfully."
     except subprocess.CalledProcessError as e:
-        err = e.stderr.decode() if isinstance(e.stderr, bytes) else str(e.stderr)
-        return False, err
+        return False, e.stderr.decode() if isinstance(e.stderr, bytes) else str(e.stderr)
 
 
-# ── UI ──────────────────────────────────────────────────────────────────────────
+# ── Shared Push Footer ─────────────────────────────────────────────────────────
+def render_push_section():
+    if st.session_state.get("ingested") and st.session_state.get("last_ingested"):
+        st.divider()
+        st.subheader("Step 3 — Push to GitHub")
+        st.caption(f"Last ingested: **{st.session_state.last_ingested}** · Push to sync Streamlit Cloud.")
+        if st.button("🚀 Push to GitHub", type="primary", key="push_btn"):
+            with st.spinner("Committing and pushing..."):
+                ok, msg = git_push(st.session_state.last_ingested)
+                if ok:
+                    st.success(f"{msg} Reboot the Streamlit Cloud app to load the new data.")
+                else:
+                    st.error(f"Push failed: {msg}")
+
+
+# ── UI ─────────────────────────────────────────────────────────────────────────
 def main():
     st.set_page_config(
         page_title="Competitor KB — Admin",
@@ -141,26 +221,14 @@ def main():
     )
 
     st.title("🔧 Competitor KB — Admin Tool")
-    st.caption("Local only · Scrape → Preview → Ingest → Push to GitHub")
+    st.caption("Local only · Add new competitors via URL scrape or document upload → Ingest → Push to GitHub")
 
     # ── Sidebar ────────────────────────────────────────────────────────────────
     with st.sidebar:
-        st.header("How to use")
-        st.markdown("""
-        1. Enter **platform name** + **URL**
-        2. Click **Scrape** to fetch via Jina AI
-        3. Review and edit the preview
-        4. Click **Ingest** to add to ChromaDB
-        5. Click **Push to GitHub** to sync with Streamlit app
-        """)
-        st.divider()
-
-        chunk_count = collection_stats()
-        st.metric("Chunks in ChromaDB", chunk_count)
-
+        st.metric("Chunks in ChromaDB", collection_stats())
         st.divider()
         st.subheader("⚠️ Full Re-ingest")
-        st.caption("Deletes and rebuilds the entire ChromaDB from all markdown files. Use only if needed.")
+        st.caption("Deletes and rebuilds the entire ChromaDB. Use only if needed.")
         if st.button("Re-ingest Everything", use_container_width=True):
             with st.spinner("Full re-ingest in progress..."):
                 try:
@@ -170,82 +238,217 @@ def main():
                 except Exception as e:
                     st.error(f"Error: {e}")
 
-    # ── Step 1: Input ──────────────────────────────────────────────────────────
-    st.subheader("Step 1 — Enter Platform Details")
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        platform_name = st.text_input("Platform / Provider Name", placeholder="e.g. ExamSoft")
-    with col2:
-        url = st.text_input("URL to scrape", placeholder="e.g. https://examsoft.com/features")
+    # ── Tabs ───────────────────────────────────────────────────────────────────
+    tab_url, tab_doc = st.tabs(["🌐  Scrape from URL", "📄  Upload Document"])
 
-    scrape_ready = bool(platform_name.strip() and url.strip())
-    if st.button("🔍 Scrape with Jina AI", type="primary", disabled=not scrape_ready):
-        with st.spinner(f"Fetching {url} via Jina AI..."):
-            try:
-                raw = scrape_with_jina(url.strip())
-                st.session_state.scraped_content = raw
-                st.session_state.scraped_platform = platform_name.strip()
-                st.session_state.scraped_url = url.strip()
-                st.session_state.ingested = False
-                st.success(f"Scraped {len(raw):,} characters from {url}")
-            except Exception as e:
-                st.error(f"Scrape failed: {e}")
+    # ══════════════════════════════════════════════════════════════════════════
+    # TAB 1 — Scrape from URL
+    # ══════════════════════════════════════════════════════════════════════════
+    with tab_url:
+        st.subheader("Step 1 — Enter Platform Details")
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            url_platform = st.text_input("Platform / Provider Name", placeholder="e.g. ExamSoft", key="url_platform")
+        with col2:
+            url_input = st.text_input("URL to scrape", placeholder="e.g. https://examsoft.com/features", key="url_input")
 
-    # ── Step 2: Preview & Edit ─────────────────────────────────────────────────
-    if "scraped_content" in st.session_state:
-        st.divider()
-        st.subheader("Step 2 — Preview & Edit")
-        st.caption("Edit the content below before ingesting. Remove irrelevant sections (nav menus, footers, etc.).")
+        if st.button("🔍 Scrape with Jina AI", type="primary",
+                     disabled=not (url_platform.strip() and url_input.strip()), key="scrape_btn"):
+            with st.spinner(f"Fetching via Jina AI..."):
+                try:
+                    raw = scrape_with_jina(url_input.strip())
+                    st.session_state.scraped_content = raw
+                    st.session_state.scraped_platform = url_platform.strip()
+                    st.session_state.scraped_url = url_input.strip()
+                    st.session_state.ingested = False
+                    st.success(f"Scraped {len(raw):,} characters")
+                except Exception as e:
+                    st.error(f"Scrape failed: {e}")
 
-        edited = st.text_area(
-            label="Scraped content",
-            value=st.session_state.scraped_content,
-            height=450,
-            label_visibility="collapsed",
-        )
+        if "scraped_content" in st.session_state:
+            st.divider()
+            st.subheader("Step 2 — Preview & Edit")
+            st.caption("Remove nav menus, footers, CTAs, and other noise before ingesting.")
 
-        col_a, col_b = st.columns([1, 5])
-        with col_a:
-            if st.button("✅ Ingest to ChromaDB", type="primary"):
-                with st.spinner("Ingesting..."):
+            edited_url = st.text_area(
+                "Scraped content (editable)",
+                value=st.session_state.scraped_content,
+                height=450,
+                key="url_edit_area",
+                label_visibility="collapsed",
+            )
+
+            col_a, col_b = st.columns([1, 5])
+            with col_a:
+                if st.button("✅ Ingest to ChromaDB", type="primary", key="url_ingest_btn"):
+                    with st.spinner("Ingesting..."):
+                        try:
+                            md_block = format_as_markdown(
+                                st.session_state.scraped_platform,
+                                st.session_state.scraped_url,
+                                edited_url,
+                            )
+                            with open(SCRAPED_FILE, "a", encoding="utf-8") as f:
+                                f.write(md_block)
+
+                            added, total = delta_ingest_text(st.session_state.scraped_platform, edited_url)
+                            st.session_state.ingested = True
+                            st.session_state.last_ingested = st.session_state.scraped_platform
+                            st.success(f"Added {added} new chunks ({total} total)")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"Ingest failed: {e}")
+            with col_b:
+                if st.button("🗑️ Clear", key="url_clear_btn"):
+                    for k in ["scraped_content", "scraped_platform", "scraped_url"]:
+                        st.session_state.pop(k, None)
+                    st.rerun()
+
+        render_push_section()
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # TAB 2 — Upload Document
+    # ══════════════════════════════════════════════════════════════════════════
+    with tab_doc:
+        st.subheader("Step 1 — Upload Document")
+        st.caption("Supported formats: PDF, DOCX, XLSX, CSV")
+
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            doc_platform = st.text_input("Platform / Provider Name", placeholder="e.g. ExamSoft", key="doc_platform")
+        with col2:
+            uploaded_file = st.file_uploader(
+                "Choose a file",
+                type=["pdf", "docx", "xlsx", "csv"],
+                key="file_uploader",
+            )
+
+        if uploaded_file and doc_platform.strip():
+            if st.button("📂 Extract Content", type="primary", key="extract_btn"):
+                with st.spinner(f"Extracting from {uploaded_file.name}..."):
                     try:
-                        # Append formatted block to scraped_platforms.md
-                        md_block = format_as_markdown(
-                            st.session_state.scraped_platform,
-                            st.session_state.scraped_url,
-                            edited,
-                        )
-                        with open(SCRAPED_FILE, "a", encoding="utf-8") as f:
-                            f.write(md_block)
+                        file_bytes = uploaded_file.read()
+                        ext = uploaded_file.name.rsplit(".", 1)[-1].lower()
 
-                        # Delta ingest
-                        added, total = delta_ingest(st.session_state.scraped_platform, edited)
+                        if ext == "pdf":
+                            text = extract_pdf(file_bytes)
+                            st.session_state.doc_content = text
+                            st.session_state.doc_type = "text"
+                            st.success(f"Extracted {len(text):,} characters from PDF")
 
-                        st.session_state.ingested = True
-                        st.session_state.last_ingested = st.session_state.scraped_platform
-                        st.success(f"Added {added} new chunks ({total} total for '{st.session_state.scraped_platform}')")
-                        st.rerun()
+                        elif ext == "docx":
+                            text = extract_docx(file_bytes)
+                            st.session_state.doc_content = text
+                            st.session_state.doc_type = "text"
+                            st.success(f"Extracted {len(text):,} characters from DOCX")
+
+                        elif ext == "xlsx":
+                            df, row_chunks = extract_xlsx(file_bytes)
+                            st.session_state.doc_df = df
+                            st.session_state.doc_rows = row_chunks
+                            st.session_state.doc_type = "tabular"
+                            st.success(f"Extracted {len(df)} rows × {len(df.columns)} columns from XLSX")
+
+                        elif ext == "csv":
+                            df, row_chunks = extract_csv(file_bytes)
+                            st.session_state.doc_df = df
+                            st.session_state.doc_rows = row_chunks
+                            st.session_state.doc_type = "tabular"
+                            st.success(f"Extracted {len(df)} rows × {len(df.columns)} columns from CSV")
+
+                        st.session_state.doc_platform = doc_platform.strip()
+                        st.session_state.doc_filename = uploaded_file.name
+                        st.session_state.ingested = False
+
                     except Exception as e:
-                        st.error(f"Ingest failed: {e}")
-        with col_b:
-            if st.button("🗑️ Clear & Start Over"):
-                for key in ["scraped_content", "scraped_platform", "scraped_url", "ingested"]:
-                    st.session_state.pop(key, None)
-                st.rerun()
+                        st.error(f"Extraction failed: {e}")
+                        st.info("Make sure the required packages are installed: pip install pypdf python-docx pandas openpyxl")
 
-    # ── Step 3: Push to GitHub ─────────────────────────────────────────────────
-    if st.session_state.get("ingested") and st.session_state.get("last_ingested"):
-        st.divider()
-        st.subheader("Step 3 — Push to GitHub")
-        st.caption(f"Last ingested: **{st.session_state.last_ingested}**. Push to sync Streamlit Cloud.")
+        # ── Preview ────────────────────────────────────────────────────────
+        if "doc_type" in st.session_state:
+            st.divider()
+            st.subheader("Step 2 — Preview & Edit")
 
-        if st.button("🚀 Push to GitHub", type="primary"):
-            with st.spinner("Committing and pushing..."):
-                ok, msg = git_push(st.session_state.last_ingested)
-                if ok:
-                    st.success(f"{msg} Reboot the Streamlit Cloud app to pick up the new data.")
-                else:
-                    st.error(f"Push failed: {msg}")
+            if st.session_state.doc_type == "text":
+                st.caption("Review and edit the extracted text before ingesting.")
+                edited_doc = st.text_area(
+                    "Extracted content (editable)",
+                    value=st.session_state.doc_content,
+                    height=450,
+                    key="doc_edit_area",
+                    label_visibility="collapsed",
+                )
+
+                col_a, col_b = st.columns([1, 5])
+                with col_a:
+                    if st.button("✅ Ingest to ChromaDB", type="primary", key="doc_ingest_text_btn"):
+                        with st.spinner("Ingesting..."):
+                            try:
+                                md_block = format_as_markdown(
+                                    st.session_state.doc_platform,
+                                    st.session_state.doc_filename,
+                                    edited_doc,
+                                )
+                                with open(SCRAPED_FILE, "a", encoding="utf-8") as f:
+                                    f.write(md_block)
+
+                                added, total = delta_ingest_text(st.session_state.doc_platform, edited_doc)
+                                st.session_state.ingested = True
+                                st.session_state.last_ingested = st.session_state.doc_platform
+                                st.success(f"Added {added} new chunks ({total} total)")
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"Ingest failed: {e}")
+                with col_b:
+                    if st.button("🗑️ Clear", key="doc_text_clear_btn"):
+                        for k in ["doc_content", "doc_type", "doc_platform", "doc_filename"]:
+                            st.session_state.pop(k, None)
+                        st.rerun()
+
+            elif st.session_state.doc_type == "tabular":
+                st.caption(f"Each row will become one chunk. {len(st.session_state.doc_rows)} rows ready to ingest.")
+
+                # Show the dataframe
+                st.dataframe(st.session_state.doc_df, use_container_width=True, height=300)
+
+                # Show how chunks look
+                with st.expander("Preview chunk format (first 3 rows)"):
+                    for row in st.session_state.doc_rows[:3]:
+                        st.markdown(f"**{row['title']}**")
+                        st.code(row["text"])
+
+                col_a, col_b = st.columns([1, 5])
+                with col_a:
+                    if st.button("✅ Ingest to ChromaDB", type="primary", key="doc_ingest_tabular_btn"):
+                        with st.spinner("Ingesting rows..."):
+                            try:
+                                # Save a text summary to scraped_platforms.md
+                                summary = "\n".join([r["text"] for r in st.session_state.doc_rows])
+                                md_block = format_as_markdown(
+                                    st.session_state.doc_platform,
+                                    st.session_state.doc_filename,
+                                    summary,
+                                )
+                                with open(SCRAPED_FILE, "a", encoding="utf-8") as f:
+                                    f.write(md_block)
+
+                                added, total = delta_ingest_rows(
+                                    st.session_state.doc_platform,
+                                    st.session_state.doc_rows,
+                                )
+                                st.session_state.ingested = True
+                                st.session_state.last_ingested = st.session_state.doc_platform
+                                st.success(f"Added {added} new chunks ({total} rows total)")
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"Ingest failed: {e}")
+                with col_b:
+                    if st.button("🗑️ Clear", key="doc_tabular_clear_btn"):
+                        for k in ["doc_df", "doc_rows", "doc_type", "doc_platform", "doc_filename"]:
+                            st.session_state.pop(k, None)
+                        st.rerun()
+
+        render_push_section()
 
 
 if __name__ == "__main__":

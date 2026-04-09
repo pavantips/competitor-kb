@@ -1,0 +1,5 @@
+# Admin tool only — not needed for the main Streamlit Cloud app
+pypdf>=4.0.0
+python-docx>=1.1.0
+pandas>=2.0.0
+openpyxl>=3.1.0
