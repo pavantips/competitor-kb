@@ -18,7 +18,7 @@ def load_markdown_files(directory: str) -> list[dict]:
     """Load all markdown files and split into platform-level chunks."""
     chunks = []
     for filename in os.listdir(directory):
-        if filename != "competitive_analysis_updated.md":
+        if filename not in ("competitive_analysis_updated.md", "scraped_platforms.md"):
             continue
         filepath = os.path.join(directory, filename)
         with open(filepath, "r", encoding="utf-8") as f:
