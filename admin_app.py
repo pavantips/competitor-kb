@@ -356,7 +356,7 @@ def main():
                             st.session_state.doc_type = "tabular"
                             st.success(f"Extracted {len(df)} rows × {len(df.columns)} columns from CSV")
 
-                        st.session_state.doc_platform = doc_platform.strip()
+                        st.session_state.doc_platform_name = doc_platform.strip()
                         st.session_state.doc_filename = uploaded_file.name
                         st.session_state.ingested = False
 
@@ -385,23 +385,23 @@ def main():
                         with st.spinner("Ingesting..."):
                             try:
                                 md_block = format_as_markdown(
-                                    st.session_state.doc_platform,
+                                    st.session_state.doc_platform_name,
                                     st.session_state.doc_filename,
                                     edited_doc,
                                 )
                                 with open(SCRAPED_FILE, "a", encoding="utf-8") as f:
                                     f.write(md_block)
 
-                                added, total = delta_ingest_text(st.session_state.doc_platform, edited_doc)
+                                added, total = delta_ingest_text(st.session_state.doc_platform_name, edited_doc)
                                 st.session_state.ingested = True
-                                st.session_state.last_ingested = st.session_state.doc_platform
+                                st.session_state.last_ingested = st.session_state.doc_platform_name
                                 st.success(f"Added {added} new chunks ({total} total)")
                                 st.rerun()
                             except Exception as e:
                                 st.error(f"Ingest failed: {e}")
                 with col_b:
                     if st.button("🗑️ Clear", key="doc_text_clear_btn"):
-                        for k in ["doc_content", "doc_type", "doc_platform", "doc_filename"]:
+                        for k in ["doc_content", "doc_type", "doc_platform_name", "doc_filename"]:
                             st.session_state.pop(k, None)
                         st.rerun()
 
@@ -425,7 +425,7 @@ def main():
                                 # Save a text summary to scraped_platforms.md
                                 summary = "\n".join([r["text"] for r in st.session_state.doc_rows])
                                 md_block = format_as_markdown(
-                                    st.session_state.doc_platform,
+                                    st.session_state.doc_platform_name,
                                     st.session_state.doc_filename,
                                     summary,
                                 )
@@ -433,18 +433,18 @@ def main():
                                     f.write(md_block)
 
                                 added, total = delta_ingest_rows(
-                                    st.session_state.doc_platform,
+                                    st.session_state.doc_platform_name,
                                     st.session_state.doc_rows,
                                 )
                                 st.session_state.ingested = True
-                                st.session_state.last_ingested = st.session_state.doc_platform
+                                st.session_state.last_ingested = st.session_state.doc_platform_name
                                 st.success(f"Added {added} new chunks ({total} rows total)")
                                 st.rerun()
                             except Exception as e:
                                 st.error(f"Ingest failed: {e}")
                 with col_b:
                     if st.button("🗑️ Clear", key="doc_tabular_clear_btn"):
-                        for k in ["doc_df", "doc_rows", "doc_type", "doc_platform", "doc_filename"]:
+                        for k in ["doc_df", "doc_rows", "doc_type", "doc_platform_name", "doc_filename"]:
                             st.session_state.pop(k, None)
                         st.rerun()
 
