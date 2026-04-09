@@ -198,12 +198,12 @@ def git_push(platform_name: str) -> tuple[bool, str]:
 
 
 # ── Shared Push Footer ─────────────────────────────────────────────────────────
-def render_push_section():
+def render_push_section(key: str = "push_btn"):
     if st.session_state.get("ingested") and st.session_state.get("last_ingested"):
         st.divider()
         st.subheader("Step 3 — Push to GitHub")
         st.caption(f"Last ingested: **{st.session_state.last_ingested}** · Push to sync Streamlit Cloud.")
-        if st.button("🚀 Push to GitHub", type="primary", key="push_btn"):
+        if st.button("🚀 Push to GitHub", type="primary", key=key):
             with st.spinner("Committing and pushing..."):
                 ok, msg = git_push(st.session_state.last_ingested)
                 if ok:
@@ -304,7 +304,7 @@ def main():
                         st.session_state.pop(k, None)
                     st.rerun()
 
-        render_push_section()
+        render_push_section(key="push_btn_url")
 
     # ══════════════════════════════════════════════════════════════════════════
     # TAB 2 — Upload Document
@@ -448,7 +448,7 @@ def main():
                             st.session_state.pop(k, None)
                         st.rerun()
 
-        render_push_section()
+        render_push_section(key="push_btn_doc")
 
 
 if __name__ == "__main__":
