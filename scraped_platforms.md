@@ -1281,3 +1281,221 @@ Please accept cookies to access this content
 *   [Cookie Policy](https://honorlock.com/cookie-policy/)
 
 ![Image 93](https://bat.bing.com/action/0?ti=187005726&tm=gtm002&Ver=2&mid=1d25ef5b-0749-4245-9ecf-67ccba3def1c&bo=1&sid=b53dfd8033ac11f192b16fbc8ac6fa11&vid=b53e1cc033ac11f182e8d703c7de6823&vids=1&msclkid=N&gtm_tag_source=1&pi=918639831&lg=en-US&sw=800&sh=600&sc=24&tl=Higher%20Education%20%26%20Online%20Learning%20Resources%20%7C%20Honorlock&p=https%3A%2F%2Fhonorlock.com%2Fresources-2%2F&r=&lt=1021&evt=pageLoad&sv=2&cdb=AQcR&rn=926456)
+
+---
+
+## UPLOADED: SURPASS
+
+> **Source:** Surpass Platform.docx
+> **Added:** April 2026
+
+Surpass Platform — Internal Walkthrough Notes
+
+Platform Terminology
+
+Surpass uses different vocabulary than Meazure Learning for similar concepts. There is a short learning curve on terminology, but the platform logic is generally intuitive once the vocabulary differences are understood. Worth noting when onboarding team members who will be working with Surpass in RFP contexts.
+
+Organizational Structure
+
+The platform is structured around **Centers** as the top-level organizational unit:
+
+- A **Center** represents a client or certification program (e.g., a nursing certification body)
+
+- Each Center has a **Reference code** (short identifier) and a **Subject** assigned beneath it
+
+- **Shared Subjects** exist as a separate category — purpose not fully confirmed during walkthrough
+
+- This hierarchy matters for how users, items, and exams are scoped and separated per client program
+
+Item Authoring & User Roles
+
+User permissions in Surpass are role-based and relatively granular at the item level:
+
+- The **Item Writer** role grants access to item authoring — including the ability to create, edit, and delete items
+
+- Once the Item Writer role is assigned, the user has access to all item authoring functions within that scope
+
+- Role assignment is done at the Center/Subject level, meaning access can be scoped per program
+
+- The user management interface supports search and filtering by center/program
+
+- Permissions noted as being the most granular available for item-level access — no finer-grained control observed below the Item Writer role
+
+Test Form Assembly & Randomization
+
+Surpass supports both static and dynamic (randomized) test form creation:
+
+- **Folder-based form assembly**: Items can be organized into folders, and test forms can be configured to draw a specified number of items from each folder (e.g., select 3 from a folder of 15)
+
+- **Randomization control**: There is a setting at the **test level** that controls whether all test takers receive the same form or randomized forms:
+
+- If the "same form" option is checked at the test level → all test takers receive an identical form on first generation
+
+- If unchecked at the test level → control passes to the **test form level**, and each test taker receives a randomized selection
+
+- **Item exposure control**: The platform may also control for item exposure (i.e., tracking which items have already been used and avoiding repeat selection) — this was noted as a possibility but not fully confirmed during the session. If implemented, this would be a sophisticated feature worth validating with Surpass directly
+
+- **LOFT support**: Surpass has a more advanced LOFT (Linear on the Fly Testing) capability, though it is noted as a paid add-on feature beyond standard licensing. This requires separate pricing discussion
+
+Reporting & Results
+
+- Reporting functionality was observed but not fully explored during the session
+
+- Results export is available in **CSV format**
+
+- The interface shows multiple views for result data
+
+- **Rescoring** capability exists within the platform — the exact workflow for rescoring was not confirmed during this session and would need validation
+
+- Report generation appeared straightforward and quick based on the demo with a single test taker record
+
+Setup & Configuration Flow
+
+The recommended setup sequence observed during the walkthrough:
+
+1. Create a **Center** (top-level client/program container)
+
+2. Assign a **Reference code** to the Center
+
+3. Create a **Subject** under the Center
+
+4. Configure **Users** and assign roles (e.g., Item Writer) scoped to the Center/Subject
+
+Key Observations for RFP Positioning
+
+- **Surpass is a legitimate platform** with solid item authoring, role-based access, and flexible form assembly — it competes well in the exam platform space
+
+- The **folder-based randomization** approach is functional and potentially supports exposure control, which is a meaningful feature for high-stakes programs
+
+- **LOFT is available but costs extra** — important to flag in RFP responses where LOFT is a requirement, as it affects total cost of ownership
+
+- **Vocabulary differences** from Meazure/standard industry terms mean team members need a brief orientation before engaging on Surpass-specific RFP questions
+
+- **Reporting exports to CSV** — no mention of advanced analytics dashboards or native visualization during this session; worth clarifying with Surpass on deeper reporting capabilities
+
+- **Rescoring workflow** needs further validation — unclear if this is self-serve or requires Surpass support involvement
+
+- The platform is navigable and relatively intuitive once the Center/Subject hierarchy is understood — low ramp-up time for experienced exam platform users
+
+Areas Requiring Further Validation
+
+The following items were flagged as uncertain during the session and should be confirmed directly with Surpass before including in RFP responses:
+
+- Whether item exposure control is truly implemented (i.e., prevents repeat item selection across forms)
+
+- Exact LOFT pricing and what is included in standard vs. premium licensing
+
+- Rescoring process — self-serve vs. support-assisted
+
+- Full depth of reporting and analytics capabilities beyond CSV export
+
+- Shared Subjects functionality and use case
+
+---
+
+## UPLOADED: SURPASS
+
+> **Source:** Surpass Platform.docx
+> **Added:** April 2026
+
+Surpass Platform — Internal Walkthrough Notes
+
+Platform Terminology
+
+Surpass uses different vocabulary than Meazure Learning for similar concepts. There is a short learning curve on terminology, but the platform logic is generally intuitive once the vocabulary differences are understood. Worth noting when onboarding team members who will be working with Surpass in RFP contexts.
+
+Organizational Structure
+
+The platform is structured around **Centers** as the top-level organizational unit:
+
+- A **Center** represents a client or certification program (e.g., a nursing certification body)
+
+- Each Center has a **Reference code** (short identifier) and a **Subject** assigned beneath it
+
+- **Shared Subjects** exist as a separate category — purpose not fully confirmed during walkthrough
+
+- This hierarchy matters for how users, items, and exams are scoped and separated per client program
+
+Item Authoring & User Roles
+
+User permissions in Surpass are role-based and relatively granular at the item level:
+
+- The **Item Writer** role grants access to item authoring — including the ability to create, edit, and delete items
+
+- Once the Item Writer role is assigned, the user has access to all item authoring functions within that scope
+
+- Role assignment is done at the Center/Subject level, meaning access can be scoped per program
+
+- The user management interface supports search and filtering by center/program
+
+- Permissions noted as being the most granular available for item-level access — no finer-grained control observed below the Item Writer role
+
+Test Form Assembly & Randomization
+
+Surpass supports both static and dynamic (randomized) test form creation:
+
+- **Folder-based form assembly**: Items can be organized into folders, and test forms can be configured to draw a specified number of items from each folder (e.g., select 3 from a folder of 15)
+
+- **Randomization control**: There is a setting at the **test level** that controls whether all test takers receive the same form or randomized forms:
+
+- If the "same form" option is checked at the test level → all test takers receive an identical form on first generation
+
+- If unchecked at the test level → control passes to the **test form level**, and each test taker receives a randomized selection
+
+- **Item exposure control**: The platform may also control for item exposure (i.e., tracking which items have already been used and avoiding repeat selection) — this was noted as a possibility but not fully confirmed during the session. If implemented, this would be a sophisticated feature worth validating with Surpass directly
+
+- **LOFT support**: Surpass has a more advanced LOFT (Linear on the Fly Testing) capability, though it is noted as a paid add-on feature beyond standard licensing. This requires separate pricing discussion
+
+Reporting & Results
+
+- Reporting functionality was observed but not fully explored during the session
+
+- Results export is available in **CSV format**
+
+- The interface shows multiple views for result data
+
+- **Rescoring** capability exists within the platform — the exact workflow for rescoring was not confirmed during this session and would need validation
+
+- Report generation appeared straightforward and quick based on the demo with a single test taker record
+
+Setup & Configuration Flow
+
+The recommended setup sequence observed during the walkthrough:
+
+1. Create a **Center** (top-level client/program container)
+
+2. Assign a **Reference code** to the Center
+
+3. Create a **Subject** under the Center
+
+4. Configure **Users** and assign roles (e.g., Item Writer) scoped to the Center/Subject
+
+Key Observations for RFP Positioning
+
+- **Surpass is a legitimate platform** with solid item authoring, role-based access, and flexible form assembly — it competes well in the exam platform space
+
+- The **folder-based randomization** approach is functional and potentially supports exposure control, which is a meaningful feature for high-stakes programs
+
+- **LOFT is available but costs extra** — important to flag in RFP responses where LOFT is a requirement, as it affects total cost of ownership
+
+- **Vocabulary differences** from Meazure/standard industry terms mean team members need a brief orientation before engaging on Surpass-specific RFP questions
+
+- **Reporting exports to CSV** — no mention of advanced analytics dashboards or native visualization during this session; worth clarifying with Surpass on deeper reporting capabilities
+
+- **Rescoring workflow** needs further validation — unclear if this is self-serve or requires Surpass support involvement
+
+- The platform is navigable and relatively intuitive once the Center/Subject hierarchy is understood — low ramp-up time for experienced exam platform users
+
+Areas Requiring Further Validation
+
+The following items were flagged as uncertain during the session and should be confirmed directly with Surpass before including in RFP responses:
+
+- Whether item exposure control is truly implemented (i.e., prevents repeat item selection across forms)
+
+- Exact LOFT pricing and what is included in standard vs. premium licensing
+
+- Rescoring process — self-serve vs. support-assisted
+
+- Full depth of reporting and analytics capabilities beyond CSV export
+
+- Shared Subjects functionality and use case
